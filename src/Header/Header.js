@@ -29,7 +29,7 @@ const Header = () => {
     const lastName = sessionStorage.getItem("lastName");
     const role = sessionStorage.getItem("registerAs"); // Get user role from sessionStorage
     const profilePicUrl = sessionStorage.getItem("profilePic"); // Get profile picture from sessionStorage
-    console.log(sessionStorage.getItem("profilePic"));
+
     if (firstName && lastName) {
       setUserName(`${firstName} ${lastName}`);
       setIsLoggedIn(true);
@@ -42,7 +42,7 @@ const Header = () => {
     }
 
     if (profilePicUrl) {
-      setProfilePic(`https://final-1-wo0z.onrender.com${profilePicUrl}`); // Updated URL
+      setProfilePic(`https://final-1-wo0z.onrender.com${profilePicUrl}`); // Updated to point to live server
     }
 
     if (darkMode) {
@@ -125,6 +125,13 @@ const Header = () => {
                     >
                       Job Posting
                     </Link>
+                    <Link
+                      to="/payment"
+                      className="nav-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Payments Dashboard
+                    </Link>
                   </>
                 )}
 
@@ -156,6 +163,9 @@ const Header = () => {
                     </Link>
                     <Link to="/ResumeBuilder" className="nav-link">
                       ResumeBuilder
+                    </Link>
+                    <Link to="/mockTest" className="nav-link">
+                      Mock Test
                     </Link>
                   </>
                 )}

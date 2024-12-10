@@ -10,6 +10,7 @@ const PaymentGateway = () => {
     cardName: "",
     cardNumber: "",
     cvv: "",
+    paymentAmount: 99,
   });
 
   const handleInputChange = (e) => {
@@ -25,6 +26,7 @@ const PaymentGateway = () => {
         paymentDetails
       );
       alert(response.data.message);
+      localStorage.setItem("paymentDone", "true");
     } catch (error) {
       console.error("Payment Error:", error);
       alert("Error processing payment. Please try again.");
@@ -99,6 +101,16 @@ const PaymentGateway = () => {
             value={paymentDetails.cvv}
             onChange={handleInputChange}
             required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="paymentAmount">Payment Amount</label>
+          <input
+            type="text"
+            id="paymentAmount"
+            name="paymentAmount"
+            value={paymentDetails.paymentAmount}
+            disabled
           />
         </div>
         <button type="submit" className="pay-button">

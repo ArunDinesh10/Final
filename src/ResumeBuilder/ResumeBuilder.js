@@ -4,8 +4,6 @@ import Experience from "../Experience/Experience.js";
 import Education from "../Education/Education.js";
 import Skills from "../Skills/Skills.js";
 import { jsPDF } from "jspdf";
-import { apiBaseUrl } from "../config/apiConfig";
-
 
 const ResumeBuilder = () => {
   const [step, setStep] = useState(1);
@@ -30,59 +28,24 @@ const ResumeBuilder = () => {
     setFormData({ ...formData, [input]: value });
   };
 
-  const handlePersonalInfoSubmit = async () => {
-    const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = formData;
+  const handleSubmit = async () => {
     try {
-      const response = await fetch(
-        "https://final-1-wo0z.onrender.com/api/resumebuilder",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            address,
-            jobTitle,
-            linkedinId,
-            phone,
-            email,
-          }),
-        }
-      );
-  
-      if (!response.ok) {
-        throw new Error("Failed to save personal information");
-      }
-  
-      alert("Personal information saved successfully!");
-      nextStep();
-    } catch (error) {
-      console.error("Error saving personal information:", error);
-      alert("Error saving personal information.");
-    }
-  };
-  
-
-  const handleResumeSubmit = async () => {
-    try {
-      const response = await fetch(
-        "https://final-1-wo0z.onrender.com/api/resume",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData), // Send the complete resume data
-        }
-      );
+      const response = await fetch("https://final-1-wo0z.onrender.com/api/resume", { // Updated URL
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to save resume data");
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      alert("Resume saved successfully!");
+      const data = await response.json();
+      console.log("Resume saved:", data);
       generatePDF();
     } catch (error) {
-      console.error("Error saving resume data:", error);
-      alert("Error saving resume.");
+      console.error("Error saving resume:", error);
+      alert("There was an error saving your resume. Please try again.");
     }
   };
 
@@ -90,13 +53,12 @@ const ResumeBuilder = () => {
     const pdf = new jsPDF();
     pdf.setFont("Times", "Normal");
 
-    let currentY = 20; // Starting Y position for text
+    let currentY = 20;
 
     const addPageIfNeeded = () => {
       if (currentY > 280) {
-        // Adjust this threshold if necessary
         pdf.addPage();
-        currentY = 20; // Reset Y position for new page
+        currentY = 20;
       }
     };
 
@@ -171,7 +133,7 @@ const ResumeBuilder = () => {
         const wrappedText = pdf.splitTextToSize(resp, 160);
 
         wrappedText.forEach((line) => {
-          pdf.circle(18, currentY, 0.5); // Bullet point
+          pdf.circle(18, currentY, 0.5);
           pdf.text(line, 22, currentY);
           currentY += 5;
           addPageIfNeeded();
@@ -206,7 +168,7 @@ const ResumeBuilder = () => {
     <div>
       {step === 1 && (
         <PersonalInfo
-          nextStep={handlePersonalInfoSubmit}
+          nextStep={nextStep}
           handleChange={handleChange}
           formData={formData}
         />
@@ -232,9 +194,10 @@ const ResumeBuilder = () => {
           prevStep={prevStep}
           handleChange={handleChange}
           formData={formData}
+          handleSubmit={handleSubmit}
         />
       )}
-      {step === 5 && <button onClick={handleResumeSubmit}>Submit Resume</button>}
+      {step === 5 && <button onClick={handleSubmit}>Submit Resume</button>}
     </div>
   );
 };

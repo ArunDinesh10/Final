@@ -14,7 +14,7 @@ const Registration = () => {
     const lastName = e.target.lastName.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const response = await fetch('http://localhost:5000/api/register', {
+    const response = await fetch('https://final-1-wo0z.onrender.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

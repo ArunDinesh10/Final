@@ -7,7 +7,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const API_BASE_URL = "https://host-wo44.onrender.com/api"; // Deployed API base URL
+  const API_BASE_URL = "https://final-1-wo0z.onrender.com/api"; // Deployed API base URL
 
   const handleLogin = async (e) => {
     e.preventDefault();

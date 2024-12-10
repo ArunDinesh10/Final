@@ -8,12 +8,15 @@ const adminRoutes = require("./routes/adminRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const employeeRoutes = require("./routes/employeeRoutes.js");
-app.use(
-  cors({
-    origin: "https://host-1-5nwp.onrender.com", // Replace with your frontend domain
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+
+const corsOptions = {
+  origin: "https://final-lrfs.onrender.com", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(cors());
 app.use(bodyParser.json());

@@ -12,7 +12,6 @@ const MockTest = () => {
 
   const navigate = useNavigate();
 
-  // Check payment status on component mount
   useEffect(() => {
     const paymentStatus = localStorage.getItem("paymentDone");
     if (paymentStatus === "true") {
@@ -22,13 +21,12 @@ const MockTest = () => {
 
   const topics = ["React", "JavaScript", "HTML", "Angular"];
 
-  // Fetch questions for selected topic
   const handleTopicChange = async (e) => {
     const selectedTopic = e.target.value;
     setTopic(selectedTopic);
     setQuestions([]);
     setScore(null);
-  
+
     if (selectedTopic) {
       try {
         const response = await axios.get(
@@ -44,7 +42,6 @@ const MockTest = () => {
       }
     }
   };
-  
 
   const handleOptionSelect = (questionId, selectedOption) => {
     setAnswers((prev) => ({
@@ -84,7 +81,6 @@ const MockTest = () => {
   return (
     <div className="mock-test">
       <h1 className="mock-test-header">Mock Test</h1>
-
       <div className="dropdown-container">
         <select onChange={handleTopicChange} value={topic} className="dropdown">
           <option value="">Select a Topic</option>
@@ -95,7 +91,6 @@ const MockTest = () => {
           ))}
         </select>
       </div>
-
       {questions.length > 0 && (
         <div className="questions-container">
           {questions.map((q, index) => (
@@ -123,7 +118,6 @@ const MockTest = () => {
           </div>
         </div>
       )}
-
       {score !== null && (
         <div className="result-container">
           <h2>

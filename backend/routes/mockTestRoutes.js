@@ -325,10 +325,9 @@ router.get("/questions/:topic", (req, res) => {
   if (questions) {
     res.status(200).json(questions);
   } else {
-    res.status(404).json({ error: `No questions found for topic: ${topic}` });
+    res.status(404).json({
+      error: `No questions found for topic: ${topic}. Available topics: ${Object.keys(mockQuestions).join(", ")}`,
+    });
   }
 });
-
-
-
 module.exports = router;

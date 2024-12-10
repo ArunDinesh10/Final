@@ -8,6 +8,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const employeeRoutes = require("./routes/employeeRoutes.js");
+const mockTestRoutes = require("./routes/mockTestRoutes");
 
 const corsOptions = {
   origin: "https://final-lrfs.onrender.com", 
@@ -25,6 +26,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", employeeRoutes);
+app.use("/api/mocktest", mockTestRoutes);
+
 app.post("/api/resume", (req, res) => {
   console.log("Incoming request body:", req.body);
 

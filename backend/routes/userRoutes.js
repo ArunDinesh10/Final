@@ -633,7 +633,7 @@ router.get("/payments", (req, res) => {
 });
 
 // Resume builder POST route
-router.post("/resumebuilder", (req, res) => {
+router.post("/resume", (req, res) => {
   const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = req.body;
 
   // Input validation

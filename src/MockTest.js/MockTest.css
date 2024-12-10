@@ -1,14 +1,24 @@
 /* Main container for the test */
+html, body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+}
+
 .mock-test {
+  flex: 1; /* Ensures it stretches to fill available vertical space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #f4f7fa;
   padding: 40px;
   max-width: 900px;
-  min-height: 100%; /* Ensure it stretches to fill available space */
   margin: auto;
   font-family: 'Arial', sans-serif;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  flex: 1; /* Allow flex-grow behavior for this container */
 }
 
 /* Header section */
@@ -45,6 +55,7 @@
 
 /* Container for questions and options */
 .questions-container {
+  width: 100%; /* Ensures it stretches across the available space */
   margin-top: 40px;
 }
 
@@ -134,11 +145,9 @@ footer {
   color: white;
   text-align: center;
   padding: 20px;
-  margin-top: auto; /* Push the footer to the bottom */
+  margin-top: auto; /* Ensures it sticks to the bottom */
   width: 100%;
-  position: relative;
 }
-
 /* Ensure the body fills the viewport */
 html,
 body {

@@ -53,8 +53,8 @@ const MockTest = () => {
   const handleSubmit = () => {
     let correctCount = 0;
 
-    questions.forEach((q, index) => {
-      const userAnswer = answers[index];
+    questions.forEach((q) => {
+      const userAnswer = answers[q.id];
       if (userAnswer === q.correct) {
         correctCount++;
       }
@@ -79,53 +79,62 @@ const MockTest = () => {
   }
 
   return (
-    <div className="mock-test">
-      <h1 className="mock-test-header">Mock Test</h1>
-      <div className="dropdown-container">
-        <select onChange={handleTopicChange} value={topic} className="dropdown">
-          <option value="">Select a Topic</option>
-          {topics.map((t, index) => (
-            <option key={index} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
-      </div>
-      {questions.length > 0 && (
-        <div className="questions-container">
-          {questions.map((q, index) => (
-            <div key={index} className="question-block">
-              <h3 className="question">{q.question}</h3>
-              <div className="options-container">
-                {q.options.map((option, optIndex) => (
-                  <label key={optIndex} className="option-label">
-                    <input
-                      type="radio"
-                      name={`question-${index}`}
-                      value={option}
-                      onChange={() => handleOptionSelect(index, option)}
-                    />
-                    {option}
-                  </label>
-                ))}
+    <>
+      <div className="mock-test">
+        <h1 className="mock-test-header">Mock Test</h1>
+        <div className="dropdown-container">
+          <select
+            onChange={handleTopicChange}
+            value={topic}
+            className="dropdown"
+          >
+            <option value="">Select a Topic</option>
+            {topics.map((t, index) => (
+              <option key={index} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
+        {questions.length > 0 && (
+          <div className="questions-container">
+            {questions.map((q) => (
+              <div key={q.id} className="question-block">
+                <h3 className="question">{q.question}</h3>
+                <div className="options-container">
+                  {q.options.map((option, optIndex) => (
+                    <label key={optIndex} className="option-label">
+                      <input
+                        type="radio"
+                        name={`question-${q.id}`}
+                        value={option}
+                        onChange={() => handleOptionSelect(q.id, option)}
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
               </div>
+            ))}
+            <div className="submit-button-container">
+              <button className="submit-button" onClick={handleSubmit}>
+                Submit
+              </button>
             </div>
-          ))}
-          <div className="submit-button-container">
-            <button className="submit-button" onClick={handleSubmit}>
-              Submit
-            </button>
           </div>
-        </div>
-      )}
-      {score !== null && (
-        <div className="result-container">
-          <h2>
-            Your Score: {score}/{questions.length}
-          </h2>
-        </div>
-      )}
-    </div>
+        )}
+        {score !== null && (
+          <div className="result-container">
+            <h2>
+              Your Score: {score}/{questions.length}
+            </h2>
+          </div>
+        )}
+      </div>
+      <footer>
+        <p>© 2024. All rights reserved by Abhi Patel.</p>
+      </footer>
+    </>
   );
 };
 

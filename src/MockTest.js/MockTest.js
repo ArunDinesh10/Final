@@ -28,7 +28,7 @@ const MockTest = () => {
     setTopic(selectedTopic);
     setQuestions([]);
     setScore(null);
-
+  
     if (selectedTopic) {
       try {
         const response = await axios.get(
@@ -36,11 +36,11 @@ const MockTest = () => {
         );
         setQuestions(response.data);
       } catch (error) {
-        console.error("Error fetching questions:", error);
+        console.error("Error fetching questions:", error.response || error.message || error);
         alert("Failed to fetch questions. Please try again.");
       }
     }
-  };
+  };  
 
   const handleOptionSelect = (questionId, selectedOption) => {
     setAnswers((prev) => ({

@@ -29,27 +29,37 @@ const ResumeBuilder = () => {
   };
 
   const handlePersonalInfoSubmit = async () => {
+    const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = formData;
     try {
       const response = await fetch(
         "https://final-1-wo0z.onrender.com/api/resumebuilder",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData), // Send personal info data
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            address,
+            jobTitle,
+            linkedinId,
+            phone,
+            email,
+          }),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to save personal information");
       }
-
+  
       alert("Personal information saved successfully!");
-      nextStep(); 
+      nextStep();
     } catch (error) {
       console.error("Error saving personal information:", error);
       alert("Error saving personal information.");
     }
   };
+  
 
   const handleResumeSubmit = async () => {
     try {

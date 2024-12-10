@@ -25,6 +25,23 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", employeeRoutes);
+app.get("/api/debug/routes", (req, res) => {
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      // Routes registered directly on the app
+      routes.push(middleware.route);
+    } else if (middleware.name === "router") {
+      // Router middleware
+      middleware.handle.stack.forEach((handler) => {
+        const route = handler.route;
+        route && routes.push(route);
+      });
+    }
+  });
+  res.json(routes);
+});
+
 app.post("/api/resume", (req, res) => {
   console.log("Incoming request body:", req.body);
 

@@ -26,53 +26,21 @@ app.use("/api", userRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", employeeRoutes);
 app.post("/api/resume", (req, res) => {
+  console.log("Incoming request body:", req.body);
+
   const {
     firstName,
     lastName,
     address,
     jobTitle,
     linkedinId,
-    experience,
-    education,
-    skills,
+    phone,
+    email,
   } = req.body;
 
-  // SQL query to insert resume data
-  const query = `INSERT INTO resumes (first_name, last_name, address, job_title, linkedin_id, experience, education, skills)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-
-  // Insert data into the database
-  connection.query(
-    query,
-    [
-      firstName,
-      lastName,
-      address,
-      jobTitle,
-      linkedinId,
-      JSON.stringify(experience),
-      JSON.stringify(education),
-      JSON.stringify(skills),
-    ],
-    (err, result) => {
-      if (err) {
-        console.error("Error saving resume data:", err);
-        return res.status(500).send("Error saving resume data");
-      }
-      res.status(201).send({
-        message: "Resume saved successfully!",
-        resumeId: result.insertId,
-      });
-    }
-  );
-});
-
-app.post("/api/resumebuilder", (req, res) => {
-  const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = req.body;
-
-  // Validate input
   if (!firstName || !lastName || !email) {
-    return res.status(400).send({ error: "Missing required fields" });
+    console.error("Validation Error: Missing required fields");
+    return res.status(400).json({ error: "Missing required fields" });
   }
 
   const query = `INSERT INTO resumeUser (first_name, last_name, address, job_title, linkedin_id, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)`;
@@ -82,12 +50,12 @@ app.post("/api/resumebuilder", (req, res) => {
     [firstName, lastName, address, jobTitle, linkedinId, phone, email],
     (err, result) => {
       if (err) {
-        console.error("Error saving user data:", err.message, err.stack);
-        return res.status(500).send({ error: "Error saving user data" });
+        console.error("Database Error:", err.message);
+        return res.status(500).json({ error: "Error saving user data" });
       }
 
-      console.log("User data saved successfully, ID:", result.insertId);
-      res.status(200).send({
+      console.log("User data saved successfully:", result.insertId);
+      res.status(200).json({
         message: "User data saved successfully",
         userId: result.insertId,
       });

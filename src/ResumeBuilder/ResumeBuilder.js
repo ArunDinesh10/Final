@@ -30,16 +30,19 @@ const ResumeBuilder = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("https://final-1-wo0z.onrender.com/api/resume", { // Updated URL
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
+      const response = await fetch(
+        "https://final-1-wo0z.onrender.com/api/resume", // Match this with your backend route
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const data = await response.json();
       console.log("Resume saved:", data);
       generatePDF();
@@ -48,6 +51,7 @@ const ResumeBuilder = () => {
       alert("There was an error saving your resume. Please try again.");
     }
   };
+  
 
   const generatePDF = () => {
     const pdf = new jsPDF();

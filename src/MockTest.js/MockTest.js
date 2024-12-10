@@ -36,11 +36,15 @@ const MockTest = () => {
         );
         setQuestions(response.data);
       } catch (error) {
-        console.error("Error fetching questions:", error.response || error.message || error);
+        console.error(
+          "Error fetching questions:",
+          error.response?.data || error.message || error
+        );
         alert("Failed to fetch questions. Please try again.");
       }
     }
-  };  
+  };
+  
 
   const handleOptionSelect = (questionId, selectedOption) => {
     setAnswers((prev) => ({

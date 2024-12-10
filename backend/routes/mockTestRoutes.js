@@ -319,15 +319,16 @@ const mockQuestions = {
 
 router.get("/questions/:topic", (req, res) => {
   const { topic } = req.params;
-  console.log(`Requested topic: ${topic}`);
   const questions = mockQuestions[topic];
-
+  console.log(`Requested topic: ${topic}`);
+  console.log("Available topics:", Object.keys(mockQuestions));
   if (questions) {
     res.status(200).json(questions);
   } else {
     res.status(404).json({ error: `No questions found for topic: ${topic}` });
   }
 });
+
 
 
 module.exports = router;

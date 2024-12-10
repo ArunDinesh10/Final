@@ -96,6 +96,7 @@ const AdminDashboard = () => {
                   onClick={() => handleStatusChange(job.job_id)}
                 >
                   {job.status || "No Status"}
+                  
                 </button>
               </td>
             </tr>

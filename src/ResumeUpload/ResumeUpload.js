@@ -10,7 +10,6 @@ const ResumeUpload = ({ title }) => {
         setFile(e.target.files[0]);
     };
 
-    // Handle file upload
     const handleUpload = async () => {
         if (!file) {
             alert("Please select a file first!");

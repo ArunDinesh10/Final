@@ -7,63 +7,72 @@ import { jsPDF } from "jspdf";
 
 const ResumeBuilder = () => {
   const [step, setStep] = useState(1);
-  const ResumeBuilder = () => {
-    const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
-      firstName: "",
-      lastName: "",
-      address: "",
-      jobTitle: "",
-      linkedinId: "",
-      phone: "",
-      email: "",
-      summary: "",
-      experience: [],
-      education: [],
-      skills: [],
-    });
-  
-    const nextStep = () => setStep(step + 1);
-    const prevStep = () => setStep(step - 1);
-  
-    const handleChange = (input, value) => {
-      setFormData({ ...formData, [input]: value });
-    };
-  
-    const handleResumeSubmit = async (formData) => {
-      try {
-        const response = await fetch("https://final-1-wo0z.onrender.com/api/resume", {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    jobTitle: "",
+    linkedinId: "",
+    phone: "",
+    email: "",
+    summary: "",
+    experience: [],
+    education: [],
+    skills: [],
+  });
+
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
+
+  const handleChange = (input, value) => {
+    setFormData({ ...formData, [input]: value });
+  };
+
+  const handlePersonalInfoSubmit = async () => {
+    try {
+      const response = await fetch(
+        "https://final-1-wo0z.onrender.com/api/resumebuilder",
+        {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-  
-        if (!response.ok) {
-          throw new Error("Failed to save resume data");
+          body: JSON.stringify(formData), // Send personal info data
         }
-  
-        const data = await response.json();
-        alert("Resume saved successfully!");
-      } catch (error) {
-        console.error("Error saving resume data:", error);
-        alert("Error saving resume.");
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to save personal information");
       }
-    };
-  
-    const handleFinalSubmit = () => {
-      handleResumeSubmit(formData);
-    };
-  
-    return (
-      <div>
-        {step === 1 && <PersonalInfo nextStep={nextStep} handleChange={handleChange} formData={formData} />}
-        {step === 2 && <Experience nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} formData={formData} />}
-        {step === 3 && <Education nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} formData={formData} />}
-        {step === 4 && <Skills prevStep={prevStep} handleChange={handleChange} formData={formData} />}
-        {step === 5 && <button onClick={handleFinalSubmit}>Submit Resume</button>}
-      </div>
-    );
-  };  
+
+      alert("Personal information saved successfully!");
+      nextStep(); 
+    } catch (error) {
+      console.error("Error saving personal information:", error);
+      alert("Error saving personal information.");
+    }
+  };
+
+  const handleResumeSubmit = async () => {
+    try {
+      const response = await fetch(
+        "https://final-1-wo0z.onrender.com/api/resume",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData), // Send the complete resume data
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to save resume data");
+      }
+
+      alert("Resume saved successfully!");
+      generatePDF();
+    } catch (error) {
+      console.error("Error saving resume data:", error);
+      alert("Error saving resume.");
+    }
+  };
 
   const generatePDF = () => {
     const pdf = new jsPDF();
@@ -185,7 +194,7 @@ const ResumeBuilder = () => {
     <div>
       {step === 1 && (
         <PersonalInfo
-          nextStep={nextStep}
+          nextStep={handlePersonalInfoSubmit}
           handleChange={handleChange}
           formData={formData}
         />
@@ -211,10 +220,9 @@ const ResumeBuilder = () => {
           prevStep={prevStep}
           handleChange={handleChange}
           formData={formData}
-          handleSubmit={handleSubmit}
         />
       )}
-      {step === 5 && <button onClick={handleSubmit}>Submit Resume</button>}
+      {step === 5 && <button onClick={handleResumeSubmit}>Submit Resume</button>}
     </div>
   );
 };

@@ -32,7 +32,7 @@ const MockTest = () => {
     if (selectedTopic) {
       try {
         const response = await axios.get(
-          `https://final-1-wo0z.onrender.com/api/mocktest/questions/${selectedTopic}` // Updated URL
+          `https://final-1-wo0z.onrender.com/api/mocktest/questions/${selectedTopic}`
         );
         setQuestions(response.data);
       } catch (error) {
@@ -59,7 +59,6 @@ const MockTest = () => {
       }
     });
 
-    // Set the score after submission
     setScore(correctCount);
   };
 
@@ -105,7 +104,7 @@ const MockTest = () => {
                       type="radio"
                       name={`question-${index}`}
                       value={option}
-                      onChange={() => handleOptionSelect(index, option)} // Store answer when an option is selected
+                      onChange={() => handleOptionSelect(index, option)}
                     />
                     {option}
                   </label>

@@ -632,33 +632,6 @@ router.get("/payments", (req, res) => {
   });
 });
 
-// Resume builder POST route
-router.post("/resume", (req, res) => {
-  const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = req.body;
-
-  // Input validation
-  if (!firstName || !lastName || !email) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-
-  const query = `INSERT INTO resumeUser (first_name, last_name, address, job_title, linkedin_id, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-
-  connection.query(
-    query,
-    [firstName, lastName, address, jobTitle, linkedinId, phone, email],
-    (err, result) => {
-      if (err) {
-        console.error("Error saving user data:", err.message);
-        return res.status(500).json({ error: "Error saving user data" });
-      }
-
-      res.status(200).json({
-        message: "User data saved successfully",
-        userId: result.insertId,
-      });
-    }
-  );
-});
 router.post("/resumebuilder", (req, res) => {
   const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = req.body;
 
@@ -666,7 +639,7 @@ router.post("/resumebuilder", (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  const query = `INSERT INTO resumeUser (first_name, last_name, address, job_title, linkedin_id, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const query = `INSERT INTO ResumeUser (first_name, last_name, address, job_title, linkedin_id, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   connection.query(
     query,
@@ -677,7 +650,7 @@ router.post("/resumebuilder", (req, res) => {
         return res.status(500).json({ error: "Error saving user data" });
       }
 
-      res.status(200).json({
+      res.status(201).json({
         message: "User data saved successfully",
         userId: result.insertId,
       });
@@ -685,5 +658,40 @@ router.post("/resumebuilder", (req, res) => {
   );
 });
 
-module.exports = router;
+// Insert into resumes table
+router.post("/resume", (req, res) => {
+  const { firstName, lastName, address, jobTitle, linkedinId, experience, education, skills } = req.body;
+
+  if (!firstName || !lastName) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const query = `INSERT INTO resumes (first_name, last_name, address, job_title, linkedin_id, experience, education, skills)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
+  connection.query(
+    query,
+    [
+      firstName,
+      lastName,
+      address,
+      jobTitle,
+      linkedinId,
+      JSON.stringify(experience),
+      JSON.stringify(education),
+      JSON.stringify(skills),
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("Error saving resume data:", err.message);
+        return res.status(500).json({ error: "Error saving resume data" });
+      }
+
+      res.status(201).json({
+        message: "Resume saved successfully",
+        resumeId: result.insertId,
+      });
+    }
+  );
+});
 module.exports = router;

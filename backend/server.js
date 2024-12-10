@@ -68,8 +68,12 @@ app.post("/api/resume", (req, res) => {
 });
 
 app.post("/api/resumebuilder", (req, res) => {
-  const { firstName, lastName, address, jobTitle, linkedinId, phone, email } =
-    req.body;
+  const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = req.body;
+
+  // Validate input
+  if (!firstName || !lastName || !email) {
+    return res.status(400).send({ error: "Missing required fields" });
+  }
 
   const query = `INSERT INTO resumeUser (first_name, last_name, address, job_title, linkedin_id, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
@@ -78,17 +82,19 @@ app.post("/api/resumebuilder", (req, res) => {
     [firstName, lastName, address, jobTitle, linkedinId, phone, email],
     (err, result) => {
       if (err) {
-        console.error("Error saving user data:", err);
-        res.status(500).send("Error saving user data");
-      } else {
-        res.status(200).send({
-          message: "User data saved successfully",
-          userId: result.insertId,
-        });
+        console.error("Error saving user data:", err.message, err.stack);
+        return res.status(500).send({ error: "Error saving user data" });
       }
+
+      console.log("User data saved successfully, ID:", result.insertId);
+      res.status(200).send({
+        message: "User data saved successfully",
+        userId: result.insertId,
+      });
     }
   );
 });
+
 
 app.post("/api/experience", (req, res) => {
   const { company, position, startDate, endDate, isCurrent, userId } = req.body; // Include userId

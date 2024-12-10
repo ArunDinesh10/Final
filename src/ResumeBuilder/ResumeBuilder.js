@@ -30,7 +30,7 @@ const ResumeBuilder = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/resume", {
+      const response = await fetch("https://final-1-wo0z.onrender.com/api/resume", { // Updated URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

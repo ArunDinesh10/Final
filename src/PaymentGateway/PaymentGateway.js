@@ -21,7 +21,7 @@ const PaymentGateway = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/payment",
+        "https://final-1-wo0z.onrender.com/api/payment", // Updated URL
         paymentDetails
       );
       alert(response.data.message);

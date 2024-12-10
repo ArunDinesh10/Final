@@ -9,56 +9,49 @@ const JobAlertsPage = () => {
     location: "",
     category: "",
   });
-  const [editingAlert, setEditingAlert] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const userId = sessionStorage.getItem("user_id");
-
-  const API_BASE_URL = "https://host-wo44.onrender.com/api";
+  const [editingAlert, setEditingAlert] = useState(null); // Holds the alert being edited
+  const [showModal, setShowModal] = useState(false); // Controls modal visibility
+  const userId = sessionStorage.getItem("user_id"); // Ensure this key is correct
 
   useEffect(() => {
-    if (!userId) {
-      alert("User not logged in. Redirecting to login.");
-      window.location.href = "/login";
-      return;
-    }
     fetchJobAlerts();
-  }, [userId]);
+  }, []);
 
-  // Fetch job alerts
+  // Fetch job alerts from the backend
   const fetchJobAlerts = async () => {
     try {
-      const response = await apiClient.get(`${API_BASE_URL}/job-alerts`, {
+      const response = await apiClient.get("/job-alerts", {
         params: { user_id: userId },
       });
       setJobAlerts(response.data);
     } catch (error) {
       console.error("Error fetching job alerts:", error);
-      alert("Failed to fetch job alerts. Please try again.");
+      alert("Failed to fetch job alerts. Please try again later.");
     }
   };
 
-  // Create a new job alert
+  // Handle creating a new job alert
   const handleCreateAlert = async (e) => {
     e.preventDefault();
     try {
-      await apiClient.post(`${API_BASE_URL}/job-alerts`, {
+      const response = await apiClient.post("/job-alerts", {
         user_id: userId,
         ...newAlert,
       });
       fetchJobAlerts();
       setNewAlert({ keywords: "", location: "", category: "" });
-      alert("Job alert created successfully.");
+      alert(response.data.message);
     } catch (error) {
       console.error("Error creating job alert:", error);
       alert("Failed to create job alert. Please try again.");
     }
   };
 
-  // Delete a job alert
+  // Handle deleting a job alert
   const handleDeleteAlert = async (alertId) => {
     if (window.confirm("Are you sure you want to delete this alert?")) {
       try {
-        await apiClient.delete(`${API_BASE_URL}/job-alerts/${alertId}`);
+        await apiClient.delete(`/job-alerts/${alertId}`);
         fetchJobAlerts();
         alert("Job alert deleted successfully.");
       } catch (error) {
@@ -68,8 +61,9 @@ const JobAlertsPage = () => {
     }
   };
 
-  // Edit an existing job alert
+  // Handle initiating the edit process
   const handleEditAlert = (alert) => {
+    console.log("Editing Alert:", alert); // Debugging line
     setEditingAlert(alert);
     setNewAlert({
       keywords: alert.keywords,
@@ -79,22 +73,26 @@ const JobAlertsPage = () => {
     setShowModal(true);
   };
 
-  // Update the job alert
+  // Handle updating the job alert
   const handleUpdateAlert = async (e) => {
     e.preventDefault();
     try {
-      await apiClient.put(`${API_BASE_URL}/job-alerts/${editingAlert.alert_id}`, {
-        ...newAlert,
-      });
+      const response = await apiClient.put(
+        `/job-alerts/${editingAlert.alert_id}`,
+        { ...newAlert }
+      );
       fetchJobAlerts();
-      closeModal();
-      alert("Job alert updated successfully.");
+      setShowModal(false);
+      setEditingAlert(null);
+      setNewAlert({ keywords: "", location: "", category: "" });
+      alert(response.data.message);
     } catch (error) {
       console.error("Error updating job alert:", error);
       alert("Failed to update job alert. Please try again.");
     }
   };
 
+  // Close the modal and reset states
   const closeModal = () => {
     setShowModal(false);
     setEditingAlert(null);
@@ -117,6 +115,7 @@ const JobAlertsPage = () => {
             onChange={(e) =>
               setNewAlert({ ...newAlert, keywords: e.target.value })
             }
+            className="input-field"
             required
           />
         </div>
@@ -130,6 +129,7 @@ const JobAlertsPage = () => {
             onChange={(e) =>
               setNewAlert({ ...newAlert, location: e.target.value })
             }
+            className="input-field"
             required
           />
         </div>
@@ -143,6 +143,7 @@ const JobAlertsPage = () => {
             onChange={(e) =>
               setNewAlert({ ...newAlert, category: e.target.value })
             }
+            className="input-field"
             required
           />
         </div>
@@ -156,16 +157,23 @@ const JobAlertsPage = () => {
         {jobAlerts.length > 0 ? (
           jobAlerts.map((alert) => (
             <div className="alert-card" key={alert.alert_id}>
-              <h3>{alert.keywords}</h3>
-              <p><strong>Location:</strong> {alert.location}</p>
-              <p><strong>Category:</strong> {alert.category}</p>
+              <h3 className="alert-keywords">{alert.keywords}</h3>
+              <p className="alert-info">
+                <strong>Location:</strong> {alert.location}
+              </p>
+              <p className="alert-info">
+                <strong>Category:</strong> {alert.category}
+              </p>
               <div className="alert-actions">
-                <button onClick={() => handleEditAlert(alert)} className="edit-btn">
+                <button
+                  onClick={() => handleEditAlert(alert)}
+                  className="edit-alert-btn"
+                >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteAlert(alert.alert_id)}
-                  className="delete-btn"
+                  className="delete-alert-btn"
                 >
                   Delete
                 </button>
@@ -173,25 +181,30 @@ const JobAlertsPage = () => {
             </div>
           ))
         ) : (
-          <p>No job alerts found.</p>
+          <p className="no-alerts">No job alerts available.</p>
         )}
       </div>
 
-      {/* Modal for Editing Job Alert */}
+      {/* Modal Popup for Editing Alert */}
       {showModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modal-overlay" onClick={closeModal}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+          >
             <h3>Edit Job Alert</h3>
-            <form onSubmit={handleUpdateAlert}>
+            <form onSubmit={handleUpdateAlert} className="modal-form">
               <div className="form-group">
                 <label htmlFor="edit-keywords">Keywords</label>
                 <input
                   type="text"
                   id="edit-keywords"
+                  placeholder="Enter keywords"
                   value={newAlert.keywords}
                   onChange={(e) =>
                     setNewAlert({ ...newAlert, keywords: e.target.value })
                   }
+                  className="input-field"
                   required
                 />
               </div>
@@ -200,10 +213,12 @@ const JobAlertsPage = () => {
                 <input
                   type="text"
                   id="edit-location"
+                  placeholder="Enter location"
                   value={newAlert.location}
                   onChange={(e) =>
                     setNewAlert({ ...newAlert, location: e.target.value })
                   }
+                  className="input-field"
                   required
                 />
               </div>
@@ -212,18 +227,24 @@ const JobAlertsPage = () => {
                 <input
                   type="text"
                   id="edit-category"
+                  placeholder="Enter category"
                   value={newAlert.category}
                   onChange={(e) =>
                     setNewAlert({ ...newAlert, category: e.target.value })
                   }
+                  className="input-field"
                   required
                 />
               </div>
-              <div className="modal-actions">
-                <button type="submit" className="update-btn">
-                  Update
+              <div className="modal-buttons">
+                <button type="submit" className="update-alert-btn">
+                  Update Alert
                 </button>
-                <button type="button" onClick={closeModal} className="cancel-btn">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="cancel-btn"
+                >
                   Cancel
                 </button>
               </div>

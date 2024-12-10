@@ -20,7 +20,7 @@ const MockTest = () => {
     if (selectedTopic) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/mocktest/questions/${selectedTopic}`
+          `https://final-1-wo0z.onrender.com/api/mocktest/questions/${selectedTopic}` // Updated URL
         );
         setQuestions(response.data); // Assume API returns a list of questions
       } catch (error) {

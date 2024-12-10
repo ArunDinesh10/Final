@@ -7,7 +7,7 @@ const PersonalInfo = ({ nextStep, handleChange, formData }) => {
 
     const handleNext = async () => {
         try {
-            await axios.post('http://localhost:5000/api/resumebuilder', {
+            await axios.post('https://final-1-wo0z.onrender.com/api/resumebuilder', { // Updated URL
                 firstName,
                 lastName,
                 address,

@@ -22,7 +22,7 @@ const ResumeUpload = ({ title }) => {
 
         try {
             setUploadStatus("Uploading...");
-            const response = await axios.post('http://localhost:5000/api/upload', formData, {
+            const response = await axios.post('https://final-1-wo0z.onrender.com/api/upload', formData, { // Updated URL
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }

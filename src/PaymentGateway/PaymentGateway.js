@@ -22,14 +22,21 @@ const PaymentGateway = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://final-1-wo0z.onrender.com/api/payment", // Updated URL
+        "https://final-1-wo0z.onrender.com/api/payment", // Ensure this is the correct URL
         paymentDetails
       );
-      alert(response.data.message);
+      alert(response.data.message || "Payment successful!");
       localStorage.setItem("paymentDone", "true");
     } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Error processing payment. Please try again.");
+      if (error.response) {
+        console.error("Response Data:", error.response.data);
+        alert(
+          `Error: ${error.response.data.message || "Check your input and try again."}`
+        );
+      } else {
+        console.error("Error Message:", error.message);
+        alert("Network error. Please try again.");
+      }
     }
   };
 

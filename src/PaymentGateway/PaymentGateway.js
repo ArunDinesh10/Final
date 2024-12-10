@@ -22,19 +22,17 @@ const PaymentGateway = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://final-1-wo0z.onrender.com/api/payment", // Ensure this is the correct URL
+        "https://final-1-wo0z.onrender.com/api/payment",
         paymentDetails
       );
       alert(response.data.message || "Payment successful!");
       localStorage.setItem("paymentDone", "true");
     } catch (error) {
       if (error.response) {
-        console.error("Response Data:", error.response.data);
-        alert(
-          `Error: ${error.response.data.message || "Check your input and try again."}`
-        );
+        console.error("Backend Response:", error.response.data);
+        alert(`Error: ${error.response.data.message || "Invalid request."}`);
       } else {
-        console.error("Error Message:", error.message);
+        console.error("Network Error:", error.message);
         alert("Network error. Please try again.");
       }
     }

@@ -30,14 +30,19 @@ const ResumeBuilder = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(
-        "https://final-1-wo0z.onrender.com/api/resume", // Match this with your backend route
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("https://final-1-wo0z.onrender.com/api/resumebuilder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: "John",
+          lastName: "Doe",
+          address: "123 Main St",
+          jobTitle: "Software Engineer",
+          linkedinId: "john-doe",
+          phone: "1234567890",
+          email: "john.doe@example.com",
+        }),
+      });
   
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -45,12 +50,13 @@ const ResumeBuilder = () => {
   
       const data = await response.json();
       console.log("Resume saved:", data);
-      generatePDF();
+      alert("Resume saved successfully!");
     } catch (error) {
       console.error("Error saving resume:", error);
-      alert("There was an error saving your resume. Please try again.");
+      alert("Error saving resume. Please try again.");
     }
   };
+  
   
 
   const generatePDF = () => {

@@ -631,4 +631,34 @@ router.get("/payments", (req, res) => {
     res.json(results);
   });
 });
+
+// Resume builder POST route
+router.post("/resumebuilder", (req, res) => {
+  const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = req.body;
+
+  // Input validation
+  if (!firstName || !lastName || !email) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const query = `INSERT INTO resumeUser (first_name, last_name, address, job_title, linkedin_id, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+  connection.query(
+    query,
+    [firstName, lastName, address, jobTitle, linkedinId, phone, email],
+    (err, result) => {
+      if (err) {
+        console.error("Error saving user data:", err.message);
+        return res.status(500).json({ error: "Error saving user data" });
+      }
+
+      res.status(200).json({
+        message: "User data saved successfully",
+        userId: result.insertId,
+      });
+    }
+  );
+});
+
+module.exports = router;
 module.exports = router;

@@ -14,13 +14,16 @@ const Registration = () => {
     const lastName = e.target.lastName.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const response = await fetch('https://final-1-wo0z.onrender.com', {
+    
+    // Update the API endpoint to point to the deployed backend
+    const response = await fetch('https://final-1-wo0z.onrender.com/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ firstName, lastName, email, password, userType }),
     });
+    
     const data = await response.json();
     if (response.ok) {
       alert(data.message);

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
-import axios from "axios";
-
-const API_BASE_URL = "https://host-wo44.onrender.com/api";
+import axios from "axios"; // Import axios for API requests
 
 const AdminDashboard = () => {
   const [jobList, setJobList] = useState([]);
@@ -19,7 +17,9 @@ const AdminDashboard = () => {
     // Fetch job data from API
     const fetchJobList = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/admin/dashboard`);
+        const response = await axios.get(
+          "https://final-1-wo0z.onrender.com/api/admin/dashboard"
+        );
         if (!response) {
           throw new Error("Failed to fetch job listings");
         }
@@ -61,11 +61,6 @@ const AdminDashboard = () => {
 
       // Update state with the new job status
       setJobList(updatedJobList);
-
-      // Optionally, you can make an API call to persist status changes
-      await axios.put(`${API_BASE_URL}/jobs/${jobId}/toggle-status`, {
-        status: updatedJobList.find((job) => job.job_id === jobId).status,
-      });
     } catch (error) {
       console.error("Error toggling job status:", error);
     }

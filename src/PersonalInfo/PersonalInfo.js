@@ -1,29 +1,28 @@
 import React from 'react';
 import axios from 'axios';
 import '../PersonalInfo/PersonalInfo.css';
-import { apiBaseUrl } from "../config/apiConfig";
-
 
 const PersonalInfo = ({ nextStep, handleChange, formData }) => {
     const { firstName, lastName, address, jobTitle, linkedinId, phone, email, summary } = formData;
 
     const handleNext = async () => {
         try {
-          const response = await fetch(`${apiBaseUrl}/resumebuilder`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
-          });
-          if (!response.ok) {
-            throw new Error("Failed to save user data");
-          }
-          alert("Personal information saved successfully!");
-          nextStep();
+            await axios.post('https://final-1-wo0z.onrender.com/api/resumebuilder', { // Updated URL
+                firstName,
+                lastName,
+                address,
+                jobTitle,
+                linkedinId,
+                phone,
+                email,
+                summary,
+            });
+            nextStep();
         } catch (error) {
-          console.error("Error saving user data:", error);
-          alert("Error saving personal information.");
+            console.error('Error saving data:', error.response ? error.response.data : error.message);
+            alert('Failed to save user data. Please try again.');
         }
-      };
+    };
 
     return (
         <div className="form-wrapper">

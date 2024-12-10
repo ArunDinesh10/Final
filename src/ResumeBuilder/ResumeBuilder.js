@@ -5,6 +5,7 @@ import Education from "../Education/Education.js";
 import Skills from "../Skills/Skills.js";
 import { jsPDF } from "jspdf";
 import { apiBaseUrl } from "../config/apiConfig";
+const apiBaseUrl = "https://final-1-wo0z.onrender.com/api";
 
 
 const ResumeBuilder = () => {

@@ -4,14 +4,17 @@ import "./ForgetPassword.css";
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+
+  // Update to use your deployed API base URL
+  const API_BASE_URL = "https://host-wo44.onrender.com/api";
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/forget-password", {
+      const response = await fetch(`${API_BASE_URL}/forget-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,15 +26,16 @@ const ForgetPassword = () => {
 
       if (response.ok) {
         alert(data.message);
-        setEmail(""); 
+        setEmail("");
         setNewPassword("");
       } else {
         alert(data.error || "Something went wrong. Please try again.");
       }
     } catch (error) {
+      console.error("Error resetting password:", error);
       alert("An error occurred. Please check your connection and try again.");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 

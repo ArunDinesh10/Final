@@ -7,11 +7,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const API_BASE_URL = "https://host-wo44.onrender.com/api"; // Deployed API base URL
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,6 +23,7 @@ const LoginPage = () => {
 
       const data = await response.json();
       if (response.ok) {
+        // Store user details in sessionStorage
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("firstName", data.firstName);
         sessionStorage.setItem("lastName", data.lastName);
@@ -34,6 +37,7 @@ const LoginPage = () => {
 
         alert("Login successful");
 
+        // Navigate to the appropriate dashboard based on user role
         if (data.registerAs === "employee") {
           navigate("/");
         } else if (data.registerAs === "employer") {

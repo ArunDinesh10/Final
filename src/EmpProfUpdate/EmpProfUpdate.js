@@ -9,11 +9,15 @@ const ProfileUpdate = () => {
     email: "",
     phoneNumber: "",
     location: "",
-    profile_pic: "", // Add profile_pic to state
+    profile_pic: "",
   });
   const [profilePhoto, setProfilePhoto] = useState(null);
+
+  // Retrieve the user ID from session storage
   const employeeId =
-    sessionStorage.getItem("user_id") || sessionStorage.getItem("employerId"); // Get user_id from sessionStorage
+    sessionStorage.getItem("user_id") || sessionStorage.getItem("employerId");
+
+  const API_BASE_URL = "https://host-wo44.onrender.com/api"; // Update base URL
 
   useEffect(() => {
     fetchEmployeeDetails();
@@ -21,18 +25,17 @@ const ProfileUpdate = () => {
 
   const fetchEmployeeDetails = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/employees/${employeeId}`
-      );
+      const response = await axios.get(`${API_BASE_URL}/employees/${employeeId}`);
       const employeeData = response.data;
       setEmployee(employeeData);
 
-      // Update sessionStorage with profile picture and user details
+      // Update sessionStorage with profile details
       sessionStorage.setItem("profilePic", employeeData.profile_pic);
       sessionStorage.setItem("firstName", employeeData.firstName);
       sessionStorage.setItem("lastName", employeeData.lastName);
     } catch (error) {
       console.error("Error fetching employee details:", error);
+      alert("Failed to fetch profile details. Please try again.");
     }
   };
 
@@ -54,20 +57,21 @@ const ProfileUpdate = () => {
       formData.append("email", employee.email);
       formData.append("phoneNumber", employee.phoneNumber);
       formData.append("location", employee.location);
+
       if (profilePhoto) {
         formData.append("profilePhoto", profilePhoto);
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/employees/${employeeId}`,
+        `${API_BASE_URL}/employees/${employeeId}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       alert("Profile updated successfully!");
-      fetchEmployeeDetails(); // Refresh the profile data
+      fetchEmployeeDetails();
 
-      // If profile photo was updated, update sessionStorage
+      // Update sessionStorage with the new profile photo
       if (profilePhoto) {
         sessionStorage.setItem("profilePic", response.data.profile_pic);
       }
@@ -120,9 +124,7 @@ const ProfileUpdate = () => {
             type="tel"
             id="phoneNumber"
             name="phoneNumber"
-            value={
-              employee.phoneNumber || Math.floor(Math.random() * 1000000000)
-            }
+            value={employee.phoneNumber}
             onChange={handleInputChange}
             required
           />

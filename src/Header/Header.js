@@ -8,11 +8,13 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [userName, setUserName] = useState("");
-  const [profilePic, setProfilePic] = useState(null); // State for profile picture
+  const [profilePic, setProfilePic] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState(""); // State for user role
+  const [userRole, setUserRole] = useState("");
+  const API_BASE_URL = "https://host-wo44.onrender.com"; // Deployed API base URL
 
+  // Retrieve dark mode preference from localStorage
   const getInitialDarkMode = () => {
     try {
       const savedMode = JSON.parse(localStorage.getItem("darkMode"));
@@ -27,9 +29,9 @@ const Header = () => {
   useEffect(() => {
     const firstName = sessionStorage.getItem("firstName");
     const lastName = sessionStorage.getItem("lastName");
-    const role = sessionStorage.getItem("registerAs"); // Get user role from sessionStorage
-    const profilePicUrl = sessionStorage.getItem("profilePic"); // Get profile picture from sessionStorage
-    console.log(sessionStorage.getItem("profilePic"));
+    const role = sessionStorage.getItem("registerAs");
+    const profilePicUrl = sessionStorage.getItem("profilePic");
+
     if (firstName && lastName) {
       setUserName(`${firstName} ${lastName}`);
       setIsLoggedIn(true);
@@ -38,13 +40,14 @@ const Header = () => {
     }
 
     if (role) {
-      setUserRole(role); // Set user role
+      setUserRole(role);
     }
 
     if (profilePicUrl) {
-      setProfilePic(`http://localhost:5000${profilePicUrl}`); // Construct full URL
+      setProfilePic(`${API_BASE_URL}${profilePicUrl}`);
     }
 
+    // Apply dark mode preference
     if (darkMode) {
       document.body.classList.add("dark-mode");
     } else {
@@ -65,8 +68,8 @@ const Header = () => {
     sessionStorage.clear();
     setIsLoggedIn(false);
     setUserName("");
-    setUserRole(""); // Clear user role
-    setProfilePic(null); // Clear profile picture
+    setUserRole("");
+    setProfilePic(null);
     navigate("/");
   };
 
@@ -108,7 +111,6 @@ const Header = () => {
               </>
             ) : (
               <>
-                {/* Admin Routes - Only visible to admins */}
                 {userRole === "employer" && (
                   <>
                     <Link
@@ -128,7 +130,6 @@ const Header = () => {
                   </>
                 )}
 
-                {/* User Routes - Visible for all logged-in users */}
                 {userRole === "employee" && (
                   <>
                     <Link
@@ -145,16 +146,32 @@ const Header = () => {
                     >
                       Job Alerts
                     </Link>
-                    <Link to="/applicationhistory" className="nav-link">
+                    <Link
+                      to="/applicationhistory"
+                      className="nav-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
                       Application History
                     </Link>
-                    <Link to="/savedjobs" className="nav-link">
+                    <Link
+                      to="/savedjobs"
+                      className="nav-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
                       Saved Jobs
                     </Link>
-                    <Link to="/PaymentGateway" className="nav-link">
+                    <Link
+                      to="/PaymentGateway"
+                      className="nav-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
                       Payment
                     </Link>
-                    <Link to="/ResumeBuilder" className="nav-link">
+                    <Link
+                      to="/ResumeBuilder"
+                      className="nav-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
                       ResumeBuilder
                     </Link>
                   </>
@@ -194,8 +211,8 @@ const Header = () => {
               }}
               onMouseOver={(e) =>
                 (e.currentTarget.style.transform = "scale(1.1)")
-              } // Zoom effect on hover
-              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")} // Reset zoom on hover out
+              }
+              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
             />
             <span className="user-name">{userName || "Guest"}</span>
           </div>

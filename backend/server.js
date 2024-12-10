@@ -196,7 +196,9 @@ app.post("/api/payment", (req, res) => {
     }
   );
 });
-
+app.get("/", (req, res) => {
+  res.send("Backend is running. Use /api/... endpoints.");
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

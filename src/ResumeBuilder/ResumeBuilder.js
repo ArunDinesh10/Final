@@ -4,6 +4,8 @@ import Experience from "../Experience/Experience.js";
 import Education from "../Education/Education.js";
 import Skills from "../Skills/Skills.js";
 import { jsPDF } from "jspdf";
+import { apiBaseUrl } from "../config/apiConfig";
+
 
 const ResumeBuilder = () => {
   const [step, setStep] = useState(1);
@@ -29,29 +31,15 @@ const ResumeBuilder = () => {
   };
 
   const handlePersonalInfoSubmit = async () => {
-    const { firstName, lastName, address, jobTitle, linkedinId, phone, email } = formData;
     try {
-      const response = await fetch(
-        "https://final-1-wo0z.onrender.com/api/resumebuilder",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            address,
-            jobTitle,
-            linkedinId,
-            phone,
-            email,
-          }),
-        }
-      );
-  
+      const response = await fetch(`${apiBaseUrl}/resumebuilder`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
       if (!response.ok) {
         throw new Error("Failed to save personal information");
       }
-  
       alert("Personal information saved successfully!");
       nextStep();
     } catch (error) {
@@ -60,22 +48,16 @@ const ResumeBuilder = () => {
     }
   };
   
-
   const handleResumeSubmit = async () => {
     try {
-      const response = await fetch(
-        "https://final-1-wo0z.onrender.com/api/resume",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData), // Send the complete resume data
-        }
-      );
-
+      const response = await fetch(`${apiBaseUrl}/resume`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
       if (!response.ok) {
         throw new Error("Failed to save resume data");
       }
-
       alert("Resume saved successfully!");
       generatePDF();
     } catch (error) {

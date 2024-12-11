@@ -21,10 +21,9 @@ const JobSearch = () => {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(
-        "https://final-1-wo0z.onrender.com/api/jobs", // Updated URL
-        { params: { ...filters } }
-      );
+      const response = await axios.get("https://final-1-wo0z.onrender.com/api/jobs", {
+        params: { ...filters },
+      });
       setJobs(response.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -34,7 +33,7 @@ const JobSearch = () => {
   const fetchAppliedJobs = async () => {
     try {
       const response = await axios.get(
-        `https://final-1-wo0z.onrender.com/api/applications/${userId}` // Updated URL
+        `https://final-1-wo0z.onrender.com/api/applications/${userId}`
       );
       setAppliedJobs(new Set(response.data));
     } catch (error) {
@@ -45,7 +44,7 @@ const JobSearch = () => {
   const fetchSavedJobs = async () => {
     try {
       const response = await axios.get(
-        `https://final-1-wo0z.onrender.com/api/saved-jobs/${userId}` // Updated URL
+        `https://final-1-wo0z.onrender.com/api/saved-jobs/${userId}`
       );
       setSavedJobs(new Set(response.data.map((job) => job.job_id)));
     } catch (error) {
@@ -56,10 +55,9 @@ const JobSearch = () => {
   const handleApply = async (jobId) => {
     if (appliedJobs.has(jobId)) {
       try {
-        await axios.delete(
-          "https://final-1-wo0z.onrender.com/api/applications/applied", // Updated URL
-          { data: { userId, jobId } }
-        );
+        await axios.delete("https://final-1-wo0z.onrender.com/api/applications/applied", {
+          data: { userId, jobId },
+        });
         setAppliedJobs((prev) => {
           const updated = new Set(prev);
           updated.delete(jobId);
@@ -70,10 +68,10 @@ const JobSearch = () => {
       }
     } else {
       try {
-        await axios.post(
-          "https://final-1-wo0z.onrender.com/api/applications", // Updated URL
-          { userId, jobId }
-        );
+        await axios.post("https://final-1-wo0z.onrender.com/api/applications", {
+          userId,
+          jobId,
+        });
         setAppliedJobs((prev) => new Set(prev).add(jobId));
       } catch (error) {
         console.error("Error applying for job:", error);
@@ -84,10 +82,9 @@ const JobSearch = () => {
   const handleSave = async (jobId) => {
     if (savedJobs.has(jobId)) {
       try {
-        await axios.delete(
-          "https://final-1-wo0z.onrender.com/api/saved-jobs", // Updated URL
-          { data: { userId, jobId } }
-        );
+        await axios.delete("https://final-1-wo0z.onrender.com/api/saved-jobs", {
+          data: { userId, jobId },
+        });
         setSavedJobs((prev) => {
           const updated = new Set(prev);
           updated.delete(jobId);
@@ -98,10 +95,10 @@ const JobSearch = () => {
       }
     } else {
       try {
-        await axios.post(
-          "https://final-1-wo0z.onrender.com/api/saved-jobs", // Updated URL
-          { userId, jobId }
-        );
+        await axios.post("https://final-1-wo0z.onrender.com/api/saved-jobs", {
+          userId,
+          jobId,
+        });
         setSavedJobs((prev) => new Set(prev).add(jobId));
       } catch (error) {
         console.error("Error saving job:", error);

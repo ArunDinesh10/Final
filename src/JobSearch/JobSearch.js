@@ -26,9 +26,9 @@ const JobSearch = () => {
       });
       setJobs(response.data);
     } catch (error) {
-      console.error("Error fetching jobs:", error);
+      console.error("Error fetching jobs:", error.response || error.message);
     }
-  };
+  };  
 
   const fetchAppliedJobs = async () => {
     try {

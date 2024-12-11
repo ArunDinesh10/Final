@@ -628,7 +628,13 @@ router.get("/payments", (req, res) => {
       console.error("Error fetching payments:", err);
       return res.status(500).json({ error: "Error fetching payments" });
     }
-    res.json(results);
+    const payments = results.map((payment) => ({
+      ...payment,
+      status: "Pending", // Static default value
+      amount: 99, // Static payment amount
+    }));
+
+    res.status(200).json(payments);
   });
 });
 

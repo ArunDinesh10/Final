@@ -4,12 +4,14 @@ import "./AdminPaymentDashboard.css";
 
 const AdminPaymentDashboard = () => {
   const [payments, setPayments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch payments from the backend
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await axios.get("https://final-1-wo0z.onrender.com/api/payments"); // Updated URL
+        const response = await axios.get("https://final-1-wo0z.onrender.com/api/payments");
+        console.log("API Response:", response.data);
         const mappedPayments = response.data.map((payment) => ({
           id: payment.id,
           fullName: payment.full_name,
@@ -18,8 +20,10 @@ const AdminPaymentDashboard = () => {
           amount: payment.amount,
         }));
         setPayments(mappedPayments);
+        setIsLoading(false); // Stop loading once data is fetched
       } catch (error) {
         console.error("Error fetching payments:", error);
+        setIsLoading(false);
       }
     };
 
@@ -43,35 +47,47 @@ const AdminPaymentDashboard = () => {
   return (
     <div className="admin-payment-dashboard">
       <h2>Admin Payment Dashboard</h2>
-      <table className="payment-table">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Payment Date</th>
-            <th>Payment Amount</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {payments.map((payment) => (
-            <tr key={payment.id}>
-              <td>{payment.fullName}</td>
-              <td>{payment.paymentDate}</td>
-              <td>${payment.amount}</td>
-              <td>{payment.status}</td>
-              <td>
-                <button
-                  onClick={() => handleToggle(payment.id)}
-                  className={`toggle-button ${payment.status.toLowerCase()}`}
-                >
-                  {payment.status === "Accepted" ? "Reject" : "Accept"}
-                </button>
-              </td>
+      {isLoading ? (
+        <p>Loading payments...</p>
+      ) : (
+        <table className="payment-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Payment Date</th>
+              <th>Payment Amount</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {payments.length > 0 ? (
+              payments.map((payment) => (
+                <tr key={payment.id}>
+                  <td>{payment.fullName}</td>
+                  <td>{payment.paymentDate}</td>
+                  <td>${payment.amount}</td>
+                  <td>{payment.status}</td>
+                  <td>
+                    <button
+                      onClick={() => handleToggle(payment.id)}
+                      className={`toggle-button ${payment.status.toLowerCase()}`}
+                    >
+                      {payment.status === "Accepted" ? "Reject" : "Accept"}
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center" }}>
+                  No payments available.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

@@ -154,6 +154,13 @@ const JobAlertsPage = () => {
             className="input-field"
             required
           />
+          <button
+                type="button"
+                onClick={() => startListening("keywords")}
+                className="mic-button"
+              >
+                🎤
+              </button>
         </div>
         <div className="form-group">
           <label htmlFor="location">Location</label>
@@ -168,6 +175,13 @@ const JobAlertsPage = () => {
             className="input-field"
             required
           />
+          <button
+                type="button"
+                onClick={() => startListening("location")}
+                className="mic-button"
+              >
+                🎤
+              </button>
         </div>
         <div className="form-group">
           <label htmlFor="category">Category</label>
@@ -182,6 +196,13 @@ const JobAlertsPage = () => {
             className="input-field"
             required
           />
+          <button
+                type="button"
+                onClick={() => startListening("category")}
+                className="mic-button"
+              >
+                🎤
+              </button>
         </div>
         <button type="submit" className="create-alert-btn">
           Create Alert

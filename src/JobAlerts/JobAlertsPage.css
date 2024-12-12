@@ -33,7 +33,6 @@ body {
   background-color: #0056b3;
   transform: scale(1.1);
 }
-
 .mic-button:focus {
   outline: 2px solid #0056b3;
   outline-offset: 2px;
@@ -43,9 +42,9 @@ body {
 .mic-button:hover::after {
   content: "Speak Now";
   position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translateY(-50%);
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #000;
   color: #fff;
   padding: 5px 10px;
@@ -90,6 +89,7 @@ body {
   flex-direction: row;
   gap: 10px;
   align-items: center;
+  position: relative; /* Ensures proper positioning of mic button */
 }
 
 label {
@@ -97,7 +97,6 @@ label {
   font-weight: 600;
   color: #555;
 }
-
 .input-field {
   flex: 1;
   padding: 12px;

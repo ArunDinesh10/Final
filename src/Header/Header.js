@@ -3,6 +3,7 @@ import "./Header.css";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { FaMoon, FaBars, FaTimes } from "react-icons/fa";
 import logo from "../img/quickJobLogo.png";
+import { Helmet } from "react-helmet";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ const Header = () => {
 
   return (
     <header className="header">
+      <Helmet> <title>QuickJob - Find Your Dream Job</title> <meta name="description" content="QuickJob helps you find your dream job with ease. Register today and start applying!" /> <meta name="keywords" content="jobs, employment, career, job search, job posting" /> <meta name="author" content="QuickJob" /> </Helmet>
       <div className="navbar-container">
         <img
           className="logo"

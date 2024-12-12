@@ -55,9 +55,9 @@ const Home = () => {
       <div className="cta-container">
         <h2>Ready to Start Your Career?</h2>
         <p>Explore thousands of job listings now!</p>
-        <a href="/JobSearch" className="explore-button">
-          Start Your Job Search
-        </a>
+        <button onClick={handleStartSearch} className="explore-button">
+        Start Your Job Search
+      </button>
       </div>
     </div>
   );

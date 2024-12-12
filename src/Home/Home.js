@@ -60,7 +60,7 @@ const Home = () => {
       </div>
       <div className="cta-container">
         <h2>Ready to Start Your Career?</h2>
-        <p>Explore thousands of job listings now!</p>
+        <p class="explore">Explore thousands of job listings now!</p>
         <button onClick={handleStartSearch} className="explore-button">
         Start Your Job Search
       </button>

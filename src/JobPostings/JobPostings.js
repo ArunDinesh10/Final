@@ -162,13 +162,7 @@ const JobPostings = () => {
                   onChange={handleInputChange}
                   required
                 />
-                <button
-                      type="button"
-                      className="mic-button"
-                      onClick={() => startListening(field.name)}
-                    >
-                      🎤
-                    </button>
+            
                 <textarea
                   name="job_description"
                   placeholder="Job Description"

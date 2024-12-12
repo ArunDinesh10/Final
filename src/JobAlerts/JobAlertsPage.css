@@ -54,8 +54,7 @@ label {
   color: #555;
 }
 .input-field {
-  flex-grow: 1; /* Ensures the input field occupies available space */
-  width: auto; /* Makes the input field dynamically adjust to available space */
+  flex-grow: 1; /* Ensures the input field occupies available space */ /* Makes the input field dynamically adjust to available space */
 }
 
 .input-field:focus {

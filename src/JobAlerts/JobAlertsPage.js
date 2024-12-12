@@ -12,6 +12,8 @@ const JobAlertsPage = () => {
   });
   const [editingAlert, setEditingAlert] = useState(null); // Holds the alert being edited
   const [showModal, setShowModal] = useState(false); // Controls modal visibility
+  const [isListening, setIsListening] = useState(false);
+  const [currentInput, setCurrentInput] = useState(null);
   const userId = sessionStorage.getItem("user_id"); // Ensure this key is correct
 
   useEffect(() => {

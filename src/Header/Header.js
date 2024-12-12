@@ -4,6 +4,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { FaMoon, FaBars, FaTimes } from "react-icons/fa";
 import logo from "../img/quickJobLogo.png";
 import '../Seo/Seo.js';
+import Seo from "../Seo/Seo.js";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -74,7 +75,6 @@ const Header = () => {
   return (
     <header className="header">
       <div className="navbar-container">
-        <Seo/>
         <img
           className="logo"
           src={logo}

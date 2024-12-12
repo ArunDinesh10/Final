@@ -6,6 +6,11 @@ import feature2 from "../img/feature2.png";
 import feature3 from "../img/feature3.png";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleStartSearch = () => {
+    navigate("/search"); 
+  };
   return (
     <div className="home-container">
       {/* Hero Section */}

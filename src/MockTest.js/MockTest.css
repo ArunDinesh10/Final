@@ -142,6 +142,14 @@ input[type="radio"] {
 }
 
 /* Footer styling */
+footer {
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto; /* Ensures it sticks to the bottom */
+  width: 100%;
+}
 /* Ensure the body fills the viewport */
 html,
 body {
@@ -149,6 +157,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 body {

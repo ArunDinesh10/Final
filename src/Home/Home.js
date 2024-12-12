@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import companyLogos from "./companyLogos";
 import feature1 from "../img/telework-6795505_640.jpg";

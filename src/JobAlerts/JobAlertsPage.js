@@ -143,27 +143,25 @@ const JobAlertsPage = () => {
 
       {/* Create Alert Form */}
       <form className="alert-form" onSubmit={handleCreateAlert}>
-        <div className="form-group">
-          <label htmlFor="keywords">Keywords</label>
-          <input
-            type="text"
-            id="keywords"
-            placeholder="Enter keywords"
-            value={newAlert.keywords}
-            onChange={(e) =>
-              setNewAlert({ ...newAlert, keywords: e.target.value })
-            }
-            className="input-field"
-            required
-          />
-          <button
-                type="button"
-                onClick={() => startListening("keywords")}
-                className="mic-button"
-              >
-                🎤
-              </button>
-        </div>
+            <div className="form-group">
+        <label htmlFor="keywords">Keywords</label>
+        <input
+          type="text"
+          id="keywords"
+          placeholder="Enter keywords"
+          value={newAlert.keywords}
+          onChange={(e) => setNewAlert({ ...newAlert, keywords: e.target.value })}
+          className="input-field"
+          required
+        />
+        <button
+          type="button"
+          onClick={() => startListening("keywords")}
+          className="mic-button"
+        >
+          🎤
+        </button>
+      </div>
         <div className="form-group">
           <label htmlFor="location">Location</label>
           <input

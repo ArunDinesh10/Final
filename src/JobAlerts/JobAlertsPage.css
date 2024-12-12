@@ -12,49 +12,6 @@ body {
   font-size: 16px;
 }
 
-/* Microphone Button */
-.mic-button {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.mic-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.1);
-}
-.mic-button:focus {
-  outline: 2px solid #0056b3;
-  outline-offset: 2px;
-}
-
-/* Tooltip for Microphone Button */
-.mic-button:hover::after {
-  content: "Speak Now";
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #000;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
-  white-space: nowrap;
-  font-size: 0.8rem;
-  opacity: 0.8;
-  z-index: 10;
-}
-
 /* Container for the Job Alerts Page */
 .job-alerts-page-container {
   max-width: 1200px;
@@ -86,10 +43,9 @@ body {
 
 .form-group {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
   align-items: center;
-  position: relative; /* Ensures proper positioning of mic button */
+  gap: 10px; /* Adds spacing between input field and mic button */
+  position: relative; /* Ensures proper positioning of child elements */
 }
 
 label {
@@ -97,6 +53,7 @@ label {
   font-weight: 600;
   color: #555;
 }
+
 .input-field {
   flex: 1;
   padding: 12px;
@@ -114,6 +71,50 @@ label {
 
 .input-field::placeholder {
   color: #bbb;
+}
+
+/* Microphone Button */
+.mic-button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.mic-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.mic-button:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+/* Tooltip for Microphone Button */
+.mic-button:hover::after {
+  content: "Speak Now";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  z-index: 10;
 }
 
 /* Button Styles */

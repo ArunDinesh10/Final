@@ -8,6 +8,7 @@ html, body {
 }
 
 .mock-test {
+  height: 100vh;
   flex: 1; /* Ensures it stretches to fill available vertical space */
   display: flex;
   flex-direction: column;
@@ -35,7 +36,7 @@ html, body {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
-  height: 100vh;
+ 
 }
 
 .dropdown {

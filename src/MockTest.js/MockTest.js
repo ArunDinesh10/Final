@@ -131,9 +131,6 @@ const MockTest = () => {
           </div>
         )}
       </div>
-      <footer>
-        <p>© 2024. All rights reserved by Abhi Patel.</p>
-      </footer>
     </>
   );
 };

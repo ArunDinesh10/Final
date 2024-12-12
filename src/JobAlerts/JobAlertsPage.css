@@ -59,6 +59,7 @@ label {
 }
 .input-field:focus {
   border-color: #007BFF;
+  
   outline: none;
 }
 
@@ -70,7 +71,7 @@ label {
 .mic-button {
   position: absolute;
   right: 10px; /* Adjust the distance from the right edge */
-  top: 50%;
+  top: 55%;
   transform: translateY(-50%);
   background-color: #007BFF;
   color: white;

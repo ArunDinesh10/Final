@@ -44,8 +44,9 @@ body {
 .form-group {
   display: flex;
   align-items: center;
-  gap: 10px; /* Adds spacing between input field and mic button */
-  position: relative; /* Ensures proper positioning of child elements */
+  gap: 10px; /* Keeps spacing between the input field and mic button */
+  position: relative;
+  flex-wrap: wrap; /* Ensures responsiveness for smaller screens */
 }
 
 label {

@@ -1,18 +1,7 @@
 /* Main container for the test */
-html, body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Full viewport height */
-}
-
+/* Main container for the test */
 .mock-test {
   height: 100vh;
-  flex: 1; /* Ensures it stretches to fill available vertical space */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background-color: #f4f7fa;
   padding: 40px;
   max-width: 900px;
@@ -20,6 +9,7 @@ html, body {
   font-family: 'Arial', sans-serif;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;  /* Ensure space at the bottom */
 }
 
 /* Header section */
@@ -36,7 +26,6 @@ html, body {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
- 
 }
 
 .dropdown {
@@ -57,7 +46,6 @@ html, body {
 
 /* Container for questions and options */
 .questions-container {
-  width: 100%; /* Ensures it stretches across the available space */
   margin-top: 40px;
 }
 
@@ -99,7 +87,7 @@ html, body {
   border-radius: 8px;
 }
 
-input[type="radio"] {
+input[type='radio'] {
   margin-right: 10px;
 }
 
@@ -147,21 +135,18 @@ footer {
   color: white;
   text-align: center;
   padding: 20px;
-  margin-top: auto; /* Ensures it sticks to the bottom */
+  position: relative;
+  bottom: 0;
   width: 100%;
 }
-/* Ensure the body fills the viewport */
-html,
+
+/* Ensure content doesn't get hidden behind footer */
 body {
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensure the height is 100% of the viewport */
-}
-
-body {
-  font-family: 'Arial', sans-serif;
+  min-height: 100vh;
 }
 
 .mock-test {
@@ -190,4 +175,38 @@ body {
   .submit-button {
     width: 100%;
   }
+}
+.access-denied {
+  text-align: center;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  max-width: 400px;
+  background-color: #f8f8f8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.access-denied h1 {
+  color: #ff4d4d;
+  margin-bottom: 10px;
+}
+
+.access-denied p {
+  margin: 10px 0;
+  color: #333;
+}
+
+.payment-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.payment-button:hover {
+  background-color: #0056b3;
 }

@@ -15,6 +15,8 @@ const JobPostings = () => {
   });
   const [filters, setFilters] = useState({ category: "", location: "" });
   const [accordionOpen, setAccordionOpen] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [currentInput, setCurrentInput] = useState(null);
   const [editingJob, setEditingJob] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const employerId = sessionStorage.getItem("employerId");
@@ -104,6 +106,41 @@ const JobPostings = () => {
     const { name, value } = e.target;
     setEditingJob({ ...editingJob, [name]: value });
   };
+  const startListening = (field) => {
+    if (!("webkitSpeechRecognition" in window)) {
+      alert("Your browser does not support speech recognition.");
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setCurrentInput(field);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const speechResult = event.results[0][0].transcript;
+      setNewJob((prev) => ({
+        ...prev,
+        [field]: speechResult,
+      }));
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
 
   return (
     <div className="job-postings-container">
@@ -125,6 +162,13 @@ const JobPostings = () => {
                   onChange={handleInputChange}
                   required
                 />
+                <button
+                      type="button"
+                      className="mic-button"
+                      onClick={() => startListening(field.name)}
+                    >
+                      🎤
+                    </button>
                 <textarea
                   name="job_description"
                   placeholder="Job Description"

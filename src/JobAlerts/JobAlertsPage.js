@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { apiClient } from "../api/apiClient"; // Ensure this path is correct
 import "./JobAlertsPage.css";
+import axios from "axios";
 
 const JobAlertsPage = () => {
   const [jobAlerts, setJobAlerts] = useState([]);
@@ -98,7 +99,42 @@ const JobAlertsPage = () => {
     setEditingAlert(null);
     setNewAlert({ keywords: "", location: "", category: "" });
   };
+  const startListening = (field) => {
+    if (!("webkitSpeechRecognition" in window)) {
+      alert("Your browser does not support speech recognition.");
+      return;
+    }
 
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setCurrentInput(field);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const speechResult = event.results[0][0].transcript;
+      setNewAlert((prev) => ({
+        ...prev,
+        [field]: speechResult,
+      }));
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
   return (
     <div className="job-alerts-page-container">
       <h2 className="page-title">Manage Your Job Alerts</h2>

@@ -43,10 +43,9 @@ body {
 
 .form-group {
   display: flex;
-  align-items: center;
-  gap: 10px; /* Space between input and mic button */
-  position: relative;
+  position: relative; /* Ensure the mic button is positioned relative to the form group */
   flex-wrap: nowrap; /* Prevents wrapping of input and button */
+  gap: 0; /* Remove space between input and button */
 }
 label {
   font-size: 0.9rem;
@@ -54,9 +53,10 @@ label {
   color: #555;
 }
 .input-field {
-  flex-grow: 1; /* Ensures the input field occupies available space */ /* Makes the input field dynamically adjust to available space */
+  flex-grow: 1;
+  padding-right: 40px; /* Add space for the microphone button inside the input */
+  position: relative; /* Ensure content respects mic position */
 }
-
 .input-field:focus {
   border-color: #007BFF;
   outline: none;
@@ -68,20 +68,26 @@ label {
 
 /* Microphone Button */
 .mic-button {
+  position: absolute;
+  right: 10px; /* Adjust the distance from the right edge */
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #007BFF;
   color: white;
   border: none;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 24px; /* Reduce size to fit neatly */
+  height: 24px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.2s ease;
+  z-index: 2; /* Ensure it appears on top of input */
 }
+
 
 .mic-button:hover {
   background-color: #0056b3;

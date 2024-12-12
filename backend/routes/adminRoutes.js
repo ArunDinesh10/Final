@@ -30,7 +30,7 @@ GROUP BY
       console.error("Error fetching admin dashboard data:", err);
       return res.status(500).send("Error fetching dashboard data");
     }
-    res.status(200).json(result); // Return the combined data for the dashboard
+    res.status(200).json(result); 
   });
 });
 

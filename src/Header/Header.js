@@ -3,7 +3,7 @@ import "./Header.css";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { FaMoon, FaBars, FaTimes } from "react-icons/fa";
 import logo from "../img/quickJobLogo.png";
-import Seo from '../Seo/Seo.js/';
+import '../Seo/Seo.js';
 
 const Header = () => {
   const navigate = useNavigate();
